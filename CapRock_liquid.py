@@ -1,6 +1,10 @@
+"""
+CapRock_liquid.py - Class to hold information of a Liquid
 
+@author: Brian Kachala - ECE 4900 Team 8
+@Last Edited: 2/26/2020
+"""
 import CapRock_constants as CC
-
 
 class Liquid():
     """
