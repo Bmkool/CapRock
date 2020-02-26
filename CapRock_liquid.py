@@ -79,4 +79,9 @@ class Liquid():
         """ Removes liquid from associated container """
         self.change_container(CC.Container.NA)
 
-# NOTE: Each Function has been manually tested to work
+    def update_volume(self, new_volume):
+        """ Updates the volume of the liquid to new_volume """
+        self._volume_left = new_volume
+
+    # NOTE: Each Function up to here has been manually tested to work
+
