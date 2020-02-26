@@ -76,10 +76,15 @@ class Liquid():
         self._container = new_container
 
     def remove_container(self):
-        """ Removes liquid from associated container """
+        """ Removes liquid from associated container and sets volume to 0 """
         self.change_container(CC.Container.NA)
+        self.change_volume(0)
 
-    def update_volume(self, new_volume):
+    def get_volume(self):
+        """ Returns the volume of the liquid in oz """
+        return self._volume_left
+
+    def change_volume(self, new_volume):
         """ Updates the volume of the liquid to new_volume """
         self._volume_left = new_volume
 
