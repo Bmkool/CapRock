@@ -90,7 +90,7 @@ class Liquid():
 
     def get_liquid_info(self):
         """
-        Returns dict of all drink info
+        Returns dict of all liquid info
         (name, abv, density, container, volume_left)
         """
         return {"name":self.get_name(), "abv":self.get_abv(), "density":self.get_density(),
