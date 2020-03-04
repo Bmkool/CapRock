@@ -8,11 +8,7 @@ CapRock_user.py - Class to hold information of a user
 import datetime
 import CapRock_liquid as liquid
 import CapRock_drink as drink
-<<<<<<< HEAD
 import CapRock_backend_util as util
-=======
-import CapRock_util as CU
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
 TIME_POS = 0
 DRINK_POS = 1
@@ -24,15 +20,9 @@ class User():
 
     Params:
     name (string) - Name of profile
-<<<<<<< HEAD
     sex (util.Sex enum) - Sex of user
     weight(float) - Weight of user in pounds
     experience(util.Experience) - How often user drinks
-=======
-    sex (CU.Sex enum) - Sex of user
-    weight(float) - Weight of user in pounds
-    experience(CU.Experience) - How often user drinks
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
     """
     def __init__(self, name, sex, weight, experience):
         """
@@ -40,7 +30,6 @@ class User():
         self._bac (float) - Blood alcohol content
         self._current drinks (list) - (drink_obj, datetime of pour) tuples
         """
-<<<<<<< HEAD
         if len(name) > util.NAME_MAX_LEN:
             raise util.CapRockError("Name greater than %d characters" % util.NAME_MAX_LEN)
         if not isinstance(sex, util.Sex):
@@ -50,17 +39,6 @@ class User():
 
         self._name = name
         self._sex = util.Sex(sex)
-=======
-        if len(name) > CU.NAME_MAX_LEN:
-            raise CU.CapRockError("Name greater than %d characters" % CU.NAME_MAX_LEN)
-        if not isinstance(sex, CU.Sex):
-            raise CU.CapRockError("Not a valid Sex")
-        if not isinstance(experience, CU.Experience):
-            raise CU.CapRockError("Not a valid Experience")
-
-        self._name = name
-        self._sex = CU.Sex(sex)
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
         self._weight = weight
         self._experience = experience
         self._bac = 0.0
@@ -72,13 +50,8 @@ class User():
 
     def change_name(self, new_name):
         """ Changes the Name of the user profile to new_name """
-<<<<<<< HEAD
         if len(new_name) > util.NAME_MAX_LEN:
             raise util.CapRockError("Name greater than %d characters" % util.NAME_MAX_LEN)
-=======
-        if len(new_name) > CU.NAME_MAX_LEN:
-            raise CU.CapRockError("Name greater than %d characters" % CU.NAME_MAX_LEN)
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
         self._name = new_name
 
@@ -88,13 +61,8 @@ class User():
 
     def change_sex(self, new_sex):
         """ Changes the sex of the user profile to new_sex """
-<<<<<<< HEAD
         if not isinstance(new_sex, util.Sex):
             raise util.CapRockError("Not a valid Sex")
-=======
-        if not isinstance(new_sex, CU.Sex):
-            raise CU.CapRockError("Not a valid Sex")
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
         self._sex = new_sex
 
@@ -113,13 +81,8 @@ class User():
 
     def change_experience(self, new_exp):
         """ Changes the experience of the user profile to new_exp """
-<<<<<<< HEAD
         if not isinstance(new_exp, util.Experience):
             raise util.CapRockError("Not a valid Experience")
-=======
-        if not isinstance(new_exp, CU.Experience):
-            raise CU.CapRockError("Not a valid Experience")
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
         self._experience = new_exp
 
@@ -143,11 +106,7 @@ class User():
         # Tested with this example:
         # https://www.craftbeer.com/attachments/0000/1170/Computing_a_BAC_Estimate.pdf
         weight_kg = self._weight/2.2046
-<<<<<<< HEAD
         sex_const = util.MALE_WATER_CONST if self.get_sex() == "Male" else util.FEMALE__WATER_CONST
-=======
-        sex_const = CU.MALE_WATER_CONST if self.get_sex() == "Male" else CU.FEMALE__WATER_CONST
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
         body_water = weight_kg * sex_const * 1000 # to ml
         oz_alc = abv*oz_drank
         gram_alc = 29.57 * oz_alc * .79 # ml/oz for one oz alc * g/mL (density)
@@ -171,19 +130,12 @@ class User():
     def add_drink(self, dr):
         """ Adds new drink to current drink list """
         if not isinstance(dr, drink.Drink):
-<<<<<<< HEAD
             raise util.CapRockError("Liquid must be a drink object")
-=======
-            raise CU.CapRockError("Liquid must be a drink object")
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
         self._current_drinks.append((datetime.datetime.now(), dr))
 
     def get_current_drinks(self):
-<<<<<<< HEAD
         """ Returns list of current drinks. (datetime, drink_obj) """
-=======
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
         return self._current_drinks
 
 
@@ -198,10 +150,6 @@ class User():
 
 #testing only
 if __name__ == "__main__":
-<<<<<<< HEAD
     lol = User("hi", util.Sex.Male, 128, util.Experience.Light)
-=======
-    lol = User("hi", CU.Sex.Male, 128, CU.Experience.Light)
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
     #lol.add_drink(("beer", ))
     print(lol.get_bac())

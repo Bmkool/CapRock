@@ -34,11 +34,7 @@ class Drink():
         # Add each liquid to drink
         for liq in liquid_info:
             if len(liq) != 2 or not isinstance(liq[LIQUID_POS], liquid.Liquid):
-<<<<<<< HEAD
                 raise util.CapRockError("Liquid must be tuple (liquid_obj, volume)")
-=======
-                raise CU.CapRockError("Liquid must be tuple (liquid_obj, volume)")
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
             self._liquids.append(liq) # Add to drink list
 
@@ -81,19 +77,11 @@ class Drink():
 
     def add_liquid(self, liquid_info):
         """ Adds liquid info (liquid_obj, oz) to a drink """
-<<<<<<< HEAD
         if len(liquid_info) == util.MAX_LIQ_PER_DRINK:
             raise util.CapRockError("Max %d liquids in a drink!" % util.MAX_LIQ_PER_DRINK)
 
         if len(liquid_info) != 2 or not isinstance(liquid_info[LIQUID_POS], liquid.Liquid):
             raise util.CapRockError("Liquid must be tuple (liquid_obj, volume)")
-=======
-        if len(liquid_info) == CU.MAX_LIQ_PER_DRINK:
-            raise CU.CapRockError("Max %d liquids in a drink!" % CU.MAX_LIQ_PER_DRINK)
-
-        if len(liquid_info) != 2 or not isinstance(liquid_info[LIQUID_POS], liquid.Liquid):
-            raise CU.CapRockError("Liquid must be tuple (liquid_obj, volume)")
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
 
         self._liquids.append(liquid_info)
         self._update_drink_info()
@@ -109,11 +97,7 @@ class Drink():
                 self._liquids.remove(liq)
                 self._update_drink_info()
                 return
-<<<<<<< HEAD
         raise util.CapRockError("Liquid not currently in drink!")
-=======
-        raise CU.CapRockError("Liquid not currently in drink!")
->>>>>>> f85c37cb1bad1d5393bc457590c55d7fcdc2a4d5
     def get_drink_info(self):
         """
         Returns dict of all drink info
