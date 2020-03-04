@@ -98,6 +98,7 @@ class Drink():
                 self._update_drink_info()
                 return
         raise util.CapRockError("Liquid not currently in drink!")
+
     def get_drink_info(self):
         """
         Returns dict of all drink info
@@ -105,20 +106,3 @@ class Drink():
         """
         return {"name":self.get_name(), "abv":self.get_abv(), "liquids":self.get_liquids(),
                 "total_volume":self.get_volume()}
-
-# Testing only
-if __name__ == "__main__":
-    bourban = liquid.Liquid("bourban", .4, 1, util.Container.FR)
-    rum = liquid.Liquid("151 rum", .755, 1, util.Container.BR)
-    scotch = liquid.Liquid("scotch", .5, 1, util.Container.FL)
-    ss = liquid.Liquid("syrup", 0, 1.2, util.Container.BL)
-    lol = Drink("lul", (bourban, 3), (rum, 4), (ss, 2), (scotch, 3))
-    print(lol._abv)
-    print(lol.get_liquids())
-    lol.remove_liquid("scotch")
-    print(lol.get_liquids())
-    lol.add_liquid((scotch, 3))
-    print(lol.get_liquids())
-    t = lol.get_liquids()
-    for l in t:
-        print(l[LIQUID_POS].get_liquid_info())

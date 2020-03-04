@@ -96,16 +96,22 @@ class User():
         for dr in self._current_drinks:
             # calc time dif in hours
             cur_time = datetime.datetime.now()
-            diff = cur_time - dr[TIME_POS]
+            diff = cur_time - datetime.datetime.strptime(str(dr[TIME_POS]), "%m-%d-%y %H:%M:%S")
             hours = diff.total_seconds() / (60*60)
-            bac_sum = bac_sum + self._bac_equation(dr[DRINK_POS].get_volume(), dr[DRINK_POS].get_abv(), hours)
+            bac_temp = self._bac_equation(dr[DRINK_POS].get_volume(), dr[DRINK_POS].get_abv(), hours)
+            if bac_temp <= 0:
+                if hours > util.SESSION_TIME: # Remove drink after BAC is zero and past session timeout time
+                    self._current_drinks.remove(dr)
+            else:
+                bac_sum = bac_sum + bac_temp
+
         return bac_sum
 
     def _bac_equation(self, oz_drank, abv, time_elapsed_hr):
         """ Returns estimated bac of single drink """
         # Tested with this example:
         # https://www.craftbeer.com/attachments/0000/1170/Computing_a_BAC_Estimate.pdf
-        weight_kg = self._weight/2.2046
+        weight_kg = float(self._weight)/2.2046
         sex_const = util.MALE_WATER_CONST if self.get_sex() == "Male" else util.FEMALE__WATER_CONST
         body_water = weight_kg * sex_const * 1000 # to ml
         oz_alc = abv*oz_drank
@@ -114,8 +120,6 @@ class User():
         alc_conc_in_blood = gram_alc_per_ml_water * .806 # blood is 80.6% water
         init_bac = alc_conc_in_blood * 100 #g/100 mL
         actual_bac = init_bac - (self._experience.value * time_elapsed_hr)
-        if actual_bac < 0:
-            actual_bac = 0
         return actual_bac
 
     def update_bac(self):
@@ -127,12 +131,13 @@ class User():
         self.update_bac()
         return self._bac
 
-    def add_drink(self, dr):
+    def add_drink(self, dr, time=datetime.datetime.now().strftime("%m-%d-%y %H:%M:%S")):
         """ Adds new drink to current drink list """
         if not isinstance(dr, drink.Drink):
             raise util.CapRockError("Liquid must be a drink object")
 
-        self._current_drinks.append((datetime.datetime.now(), dr))
+        self._current_drinks.append((time, dr))
+        self.update_bac()
 
     def get_current_drinks(self):
         """ Returns list of current drinks. (datetime, drink_obj) """
@@ -146,10 +151,3 @@ class User():
         """
         return {"name":self.get_name(), "sex":self.get_sex(), "weight":self.get_weight(),
                 "experience":self.get_experience(), "bac":self.get_bac(), "current_drinks":self.get_current_drinks()}
-
-
-#testing only
-if __name__ == "__main__":
-    lol = User("hi", util.Sex.Male, 128, util.Experience.Light)
-    #lol.add_drink(("beer", ))
-    print(lol.get_bac())
