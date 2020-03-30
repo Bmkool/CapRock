@@ -11,16 +11,17 @@ import CapRock_backend_util as util
 import logging
 
 def startup():
-
+    """ Initial routine to setup software """
     try:
         util.init_logging()
         return util.load_storage()
     except Exception as e:
-        logging.critical("%s - Startup issue" % str(e) )
-        raise(e)
+        logging.critical("%s - Startup issue" % str(e))
+        return [], [], []
 
 
 def cleanup(profiles, drinks, liquids):
+    """ Cleanup actions to exit software """
     util.save_storage(profiles, drinks, liquids)
 
 
