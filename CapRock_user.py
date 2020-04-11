@@ -2,7 +2,7 @@
 CapRock_user.py - Class to hold information of a user
 
 @author: Brian Kachala - ECE 4900 Team 8
-@Last Edited: 3/3/2020
+@Last Edited: 4/10/2020
 """
 
 import datetime
@@ -36,6 +36,8 @@ class User():
             raise util.CapRockError("Not a valid Sex")
         if not isinstance(experience, util.Experience):
             raise util.CapRockError("Not a valid Experience")
+        if not isinstance(weight, int) and not isinstance(weight, float):
+            raise util.CapRockError("Not a valid Weight")
 
         self._name = name
         self._sex = util.Sex(sex)

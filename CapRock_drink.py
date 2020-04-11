@@ -2,7 +2,7 @@
 CapRock_drink.py - Class to hold information of a drink
 
 @author: Brian Kachala - ECE 4900 Team 8
-@Last Edited: 3/3/2020
+@Last Edited: 4/10/2020
 """
 import CapRock_backend_util as util
 import CapRock_liquid as liquid
@@ -25,8 +25,10 @@ class Drink():
         """
         if len(liquid_info) > util.MAX_LIQ_PER_DRINK:
             raise util.CapRockError("Max %d liquids in a drink!" % util.MAX_LIQ_PER_DRINK)
-        elif len(liquid_info) == 0:
+        if len(liquid_info) == 0:
             raise util.CapRockError("Must include at least one liquid!")
+        if len(name) > util.DRINK_MAX_LEN:
+            raise util.CapRockError("Name greater than %d characters" % util.DRINK_MAX_LEN)
         self._liquids = []
         self._name = name
         self._total_volume = 0
@@ -46,13 +48,20 @@ class Drink():
 
     def change_name(self, new_name):
         """ Changes the Name of the drink to new_name """
-        if len(new_name) > util.NAME_MAX_LEN:
-            raise util.CapRockError("Name greater than %d characters" % util.NAME_MAX_LEN)
+        if len(new_name) > util.DRINK_MAX_LEN:
+            raise util.CapRockError("Name greater than %d characters" % util.DRINK_MAX_LEN)
 
         self._name = new_name
 
-    def get_liquids(self):
-        """ Returns all the liquids as a list of tuples (liquid, volume) """
+    def get_liquids_obj(self):
+        """ Returns all the liquids as a list of tuples (liquid_obj, volume) """
+        liquid_list = []
+        for liq in self._liquids:
+            liquid_list.append((liq[LIQUID_POS], liq[VOLUME_POS]))
+        return liquid_list
+
+    def get_liquids_name(self):
+        """ Returns all the liquids as a list of tuples (liquid_str_name, volume) """
         liquid_list = []
         for liq in self._liquids:
             liquid_list.append((liq[LIQUID_POS].get_name(), liq[VOLUME_POS]))
@@ -104,5 +113,5 @@ class Drink():
         Returns dict of all drink info
         (name, abv, liquids, total_volume)
         """
-        return {"name":self.get_name(), "abv":self.get_abv(), "liquids":self.get_liquids(),
+        return {"name":self.get_name(), "abv":self.get_abv(), "liquids":self.get_liquids_name(),
                 "total_volume":self.get_volume()}

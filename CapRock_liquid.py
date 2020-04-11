@@ -2,7 +2,7 @@
 CapRock_liquid.py - Class to hold information of a Liquid
 
 @author: Brian Kachala - ECE 4900 Team 8
-@Last Edited: 2/26/2020
+@Last Edited: 4/10/2020
 """
 import CapRock_backend_util as util
 
@@ -14,25 +14,28 @@ class Liquid():
     name (string) - Name of liquid
     abv (float) -  ABV of liquid between 0 and 1
     density(float) - Density of liquid in (g/mL)
-    container(util.Container) - Container liquid is stored in
+    volume_available - Volume of liquid in a storage container in ounces
+    container(util.Container) - Container liquid is stored in NOTE: If in container it must previously be empty
     """
 
-    def __init__(self, name, abv, density, container=util.Container.NA):
+    def __init__(self, name, abv, density, volume=0, container=util.Container.NA):
         """
         Constructor for Liquid class.
         """
-        if len(name) > util.NAME_MAX_LEN:
-            raise util.CapRockError("Name greater than %d characters" % util.NAME_MAX_LEN)
+        if len(name) > util.LIQUID_MAX_LEN:
+            raise util.CapRockError("Name greater than %d characters" % util.LIQUID_MAX_LEN)
         if abv < 0 or abv > 1:
             raise util.CapRockError("Invalid ABV. Must be between 0 and 1")
         if not isinstance(container, util.Container):
             raise util.CapRockError("Not a valid container")
+        if volume > util.MAX_VOLUME_OZ:
+            raise util.CapRockError("Cannot store greater than %d oz of liquid" % util.MAX_VOLUME_OZ)
 
         self._name = name
         self._abv = abv
         self._density = density
         self._container = container
-        self._volume_left = 0
+        self._volume_left = volume
 
     def get_name(self):
         """ Returns the Name of the liquid """
@@ -40,8 +43,8 @@ class Liquid():
 
     def change_name(self, new_name):
         """ Changes the Name of the liquid to new_name """
-        if len(new_name) > util.NAME_MAX_LEN:
-            raise util.CapRockError("Name greater than %d characters" % util.NAME_MAX_LEN)
+        if len(new_name) > util.LIQUID_MAX_LEN:
+            raise util.CapRockError("Name greater than %d characters" % util.LIQUID_MAX_LEN)
 
         self._name = new_name
 
@@ -69,7 +72,10 @@ class Liquid():
         return self._container.name
 
     def change_container(self, new_container):
-        """ Changes the container of the liquid to new_container """
+        """
+        Changes the container of the liquid to new_container
+        NOTE: Does not check if already liquid in current container
+        """
         if not isinstance(new_container, util.Container):
             raise util.CapRockError("Not a valid container")
 
