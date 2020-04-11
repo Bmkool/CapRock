@@ -662,7 +662,7 @@ class NewDrink(tk.Frame):
                         if volNum not in [x*0.5 for x in range(2*0, 2*16+1)][1:]: # Make sure in range .5-16
                             dispMessage = "Volume must be in increments of .5 oz from .5-16"
                         else:
-                            goodLiq.append((self.controller.liquids[liqNum-1],volNum)) # Add liquid to drink
+                            goodLiq.append((self.controller.liquids[liqNum-1],float(volNum))) # Add liquid to drink
 
             # Add drink to list
             if goodLiq:
