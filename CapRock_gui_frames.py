@@ -654,7 +654,10 @@ class NewDrink(tk.Frame):
                 liqNum = self.drinkChoice[i].curselection()[0]
                 volTemp = self.volEntry[i].get()
                 if liqNum > 0: # Liquid should be added
-                    if not volTemp.replace('.','',1).isdigit():
+                    if self.controller.liquids[liqNum-1].get_name() in [lq[0].get_name() for lq in goodLiq]:
+                        dispMessage = "Cannot add the same liquid multiple times in a drink"
+                        break
+                    elif not volTemp.replace('.','',1).isdigit():
                         dispMessage = "Volume must be a number"
                         break
                     else:
@@ -665,7 +668,7 @@ class NewDrink(tk.Frame):
                             goodLiq.append((self.controller.liquids[liqNum-1],float(volNum))) # Add liquid to drink
 
             # Add drink to list
-            if goodLiq:
+            if not dispMessage and goodLiq:
                 self.makeDrink(drinkName, goodLiq)
                 dispMessage = "%s added to drink list!" % drinkName
                 self.controller._prev_frame = "EditDrinks"
