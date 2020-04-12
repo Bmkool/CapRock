@@ -398,7 +398,7 @@ class NewProfile(tk.Frame):
             dispMessage = "Name must be between 1 and 12 characters!"
         if self.nameInput.get() in [subset.get_name() for subset in self.controller.profiles] or self.nameInput.get().lower() == "guest":
             dispMessage = "Cannot of multiple profiles with the same name!"
-        if not self.weightInput.get().isdigit():
+        if not self.weightInput.get().replace('.','',1).isdigit():
             dispMessage = "Weight must be a number!"
         if not dispMessage:
             # Profile is ready to add so update backend
