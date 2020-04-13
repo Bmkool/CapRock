@@ -461,11 +461,14 @@ class EditProfile(tk.Frame):
 
     def editProfile(self, sexChoice, expChoice):
         dispMessage = ""
+        self.controller._prev_frame = "EditProfile"
         if not sexChoice or not expChoice: # Must have a choice for both
             return
-        if not self.weightInput.get().isdigit():
+        if not self.weightInput.get().replace('.','',1).isdigit():
+            print(self.weightInput.get())
+            print(self.weightInput.get().replace('.','',1).isdigit())
             dispMessage = "Weight must be a number!"
-        if not dispMessage:
+        else:
             # Profile is ready to add so update backend
             sex = util.Sex.Male if sexChoice == 0 else util.Sex.Female
             exp = util.Experience.Light
@@ -473,13 +476,13 @@ class EditProfile(tk.Frame):
                 exp = util.Experience.Regular
             elif expChoice == 2:
                 exp = util.Experience.Heavy
-            self.controller._active_profile.change_weight(self.weightInput.get())
+            self.controller._active_profile.change_weight(float(self.weightInput.get()))
             self.controller._active_profile.change_sex(sex)
             self.controller._active_profile.change_experience(exp)
-            self.controller._display_message.set("Profile Successfully Edited!")
-        else:
+            dispMessage = "Profile Successfully Edited!"
             self.controller._prev_frame = "ChangeProfile"
-            self.controller._display_message.set(dispMessage)
+
+        self.controller._display_message.set(dispMessage)
         self.controller.show_frame("DisplayInfo")
 
 class EditDrinks(tk.Frame):
